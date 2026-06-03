@@ -11,10 +11,10 @@ exports.renderHomePage = async function (req, res) {
 
 exports.renderLoginPage = function (req, res) {
     if (req.user) return res.redirect("/");
-    return res.render("Login");
+    return res.render("login");
 };
 
 exports.renderSignupPage = function (req, res) {
     if (req.user) return res.redirect("/");
-    return res.render("Signup");
+    return res.render("signup");
 }
