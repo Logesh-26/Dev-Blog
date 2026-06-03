@@ -19,7 +19,12 @@ exports.handleUserLogin = async function (req, res) {
 
         // return res.cookie("token", token).render('login', { message: "Login success" }); //for testing purpose, in production we should redirect to home page or dashboard
         
-        return res.cookie("token", token).redirect("/");
+        return res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+        }).redirect("/");
+
     } catch (error) {
         res.render('login', {
             error,
@@ -39,8 +44,12 @@ exports.handleUserSignup = async function (req, res) {
         const token = await generateTokenForUser(user._id);
 
         // return res.render("Login", { message: "Signup successful, Please Login to continue" }); //for testing purpose, in production we should redirect to home page or dashboard
-       
-        return res.cookie("token", token).redirect("/");
+
+        return res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+        }).redirect("/");
     } catch (error) {
         res.render('signup', {
             error,
@@ -49,12 +58,17 @@ exports.handleUserSignup = async function (req, res) {
 };
 
 exports.handleUserLogout = function (req, res) {
-    res.clearCookie('token').redirect('/login');
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+    }).redirect("/login");
+
     console.log(`${req.user.fullName} logged out`);
 }
 
 exports.renderUsersBlogs = async function (req, res) {
-    if (!req.user) return res.redirect('login');
+    if (!req.user) return res.redirect('/login');
     const blogs = await Blog.find({ createdBy: req.user._id });
     return res.render('usersBlogs', {
         user: req.user,
