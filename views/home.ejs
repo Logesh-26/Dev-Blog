@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/css/bootstrap') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        .blogs-container{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            gap: 20px;
+            grid-auto-flow: row;
+        }
+        .blogs-heading{
+            left: 3rem;
+            padding-top:1rem;
+            position: relative;
+            text-shadow: 2px 2px 4px black;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/components/nav') %>
+    <div class="container">
+        <h1 class="blogs-heading">Blogs</h1>
+        <div class="blogs-container mt-3 mb-3">
+        <% blogs.forEach(blog => { %>
+            <div class="card mx-2" style="width:100%;">
+                <img src="/uploads/<%= blog.coverImage %>" class="card-img-top" alt="<%= blog.coverImage %>">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= blog.title %>
+                    </h5>
+                    <p><%= blog.views %> view(s)</p>
+                    <a href="/blog/view/<%= blog._id %>" class="btn btn-primary">View Blog</a>
+                </div>       
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+    <%- include('./partials/js/bootstrap') %>
+</body>
+</html>

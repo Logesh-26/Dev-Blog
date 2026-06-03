@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/css/bootstrap') %>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blog Page</title>
+</head>
+
+<body>
+    <%- include('./partials/components/nav') %>
+        <div class="container my-5">
+            <% if(locals.user && user.role === 'admin') { %>
+             <a class="btn btn-danger" href="/blog/delete/<%= blog._id %>">Delete Blog</a>
+            <% } %>
+            <img width="50%"  class="d-block mx-auto shadow p-1 mb-5 bg-body rounded" src="/uploads/<%= blog.coverImage %>"/>
+            <h1 class="text-center"><%= blog.title %></h1>
+            <p><%= blog.content %></p>
+            <p>Posted By: <%= blog.createdBy.fullName %></p>
+        </div>
+        <% if (locals.user) { %>
+         <div class="container my-5">
+            <input type="text" id="comment-input" class="form-control my-2" placeholder="Enter your comment" />
+            <button id="submitBtn" class="btn btn-success">POST</button>
+         </div>
+        <% } %>
+        <div class="container">
+            <h1>Comments (<%= comments.length %>)</h1>
+            <% comments.forEach(comment => { %>
+                <!-- <li><%= comment.createdBy.fullName %> - <%= comment.comment %></li> -->
+                 <div>
+                    <span class="text-bold"><%= comment.createdBy.fullName %></span> - <%= comment.comment %>
+                 </div>
+             
+            <% }) %>
+        </div>
+
+        <%- include('./partials/js/bootstrap') %>
+        <script>
+            const blogId = '<%= blog._id %>';
+            const input = document.getElementById('comment-input');
+            const btn = document.getElementById('submitBtn');
+
+            btn.addEventListener("click", createComment);
+
+            function createComment() {
+                fetch('/comment/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type' : 'application/json',
+                    },
+                    body: JSON.stringify({ blogId, comment: input.value })
+                }).then(e => window.location.reload());
+            }
+        </script>
+</body>
+
+</html>
