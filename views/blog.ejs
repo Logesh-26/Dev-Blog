@@ -44,11 +44,12 @@
 
         <%- include('./partials/js/bootstrap') %>
         <script>
+            document.addEventListener("DOMContentLoaded", ()=>{
             const blogId = '<%= blog._id %>';
             const input = document.getElementById('comment-input');
             const btn = document.getElementById('submitBtn');
-            
-            if(btn){
+
+            if(btn && input){
                 btn.addEventListener("click", createComment);
             }
 
@@ -61,6 +62,7 @@
                     body: JSON.stringify({ blogId, comment: input.value })
                 }).then(e => window.location.reload());
             }
+        });
         </script>
 </body>
 
