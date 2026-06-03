@@ -16,7 +16,7 @@ exports.checkForToken = function (req, res, next) {
 exports.onlyGrantAccessTo = function (role) {
     return function (req, res, next) {
         const token = req.cookies['token'];
-        if (!token) return res.redirect('login');
+        if (!token) return res.redirect('/login');
 
         try {
             const userPayload = validateToken(token);
