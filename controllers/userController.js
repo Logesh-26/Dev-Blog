@@ -21,8 +21,8 @@ exports.handleUserLogin = async function (req, res) {
         
         return res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "None",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Lax",
         }).redirect("/");
 
     } catch (error) {
@@ -47,8 +47,8 @@ exports.handleUserSignup = async function (req, res) {
 
         return res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "None",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Lax",
         }).redirect("/");
     } catch (error) {
         res.render('signup', {
@@ -60,8 +60,8 @@ exports.handleUserSignup = async function (req, res) {
 exports.handleUserLogout = function (req, res) {
     res.clearCookie("token", {
         httpOnly: true,
-        secure: true,
-        sameSite: "None",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Lax",
     }).redirect("/login");
 
     console.log(`${req.user.fullName} logged out`);
