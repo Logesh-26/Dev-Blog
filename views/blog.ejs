@@ -47,8 +47,10 @@
             const blogId = '<%= blog._id %>';
             const input = document.getElementById('comment-input');
             const btn = document.getElementById('submitBtn');
-
-            btn.addEventListener("click", createComment);
+            
+            if(btn){
+                btn.addEventListener("click", createComment);
+            }
 
             function createComment() {
                 fetch('/comment/create', {
